@@ -1,34 +1,43 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>عالم الجوكر</title>
-    <style>
-        body { background: #0b0b0b; color: white; font-family: sans-serif; text-align: center; padding: 50px; }
-        .card { background: linear-gradient(135deg, #6e30f2, #41a18c); padding: 30px; border-radius: 20px; display: inline-block; }
-        input { padding: 10px; border-radius: 10px; border: none; width: 80%; margin-bottom: 10px; }
-        button { background: #fff; color: #6e30f2; padding: 10px 20px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>عالم الجوكر</title>
+  <style>
+    body { background: #0b0b0b; color: white; font-family: sans-serif; padding: 50px; direction: rtl; text-align: right; }
+    .card { background: linear-gradient(135deg, #6e30f2, #41a18c); padding: 30px; border-radius: 20px; display: inline-block; max-width: 600px; width: 90%; }
+    input { padding: 10px; border-radius: 10px; border: none; width: calc(100% - 22px); margin-bottom: 10px; box-sizing: border-box; }
+    button { background: #fff; color: #6e30f2; padding: 10px 20px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; }
+    @media (max-width:600px) { body{ padding:20px; } .card{ padding:20px; } }
+  </style>
 </head>
 <body>
-    <div class="card">
-        <h1>أهلاً بك في عالم الجوكر</h1>
-        <input type="text" id="userIn" placeholder="اكتب أمرك هنا يا عبد الله...">
-        <br>
-        <button onclick="send()">ابدأ التنفيذ الآن</button>
-        <p id="response"></p>
-    </div>
-    <script>
-        async function send() {
-            const msg = document.getElementById('userIn').value;
-            const res = await fetch('https://joker-assets.onrender.com/chat', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({message: msg})
-            });
-            const data = await res.json();
-            document.getElementById('response').innerText = data.reply;
-        }
-    </script>
+  <div class="card">
+    <h1>أهلاً بك في عالم الجوكر</h1>
+    <input type="text" id="userIn" placeholder="اكتب أمرك هنا...">
+    <br>
+    <button onclick="send()">ابدأ التنفيذ الآن</button>
+    <p id="response" aria-live="polite"></p>
+  </div>
+  <script>
+    async function send(){
+      const msg = document.getElementById('userIn').value;
+      if(!msg) { document.getElementById('response').innerText = 'الرجاء كتابة أمر.'; return; }
+      try{
+        const res = await fetch('https://joker-assets.onrender.com/chat', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({message: msg})
+        });
+        if(!res.ok) throw new Error('Network response was not ok');
+        const data = await res.json();
+        document.getElementById('response').innerText = data.reply || 'لا يوجد رد.';
+      }catch(err){
+        document.getElementById('response').innerText = 'حدث خطأ أثناء الاتصال بالخادم.';
+        console.error(err);
+      }
+    }
+  </script>
 </body>
 </html>
