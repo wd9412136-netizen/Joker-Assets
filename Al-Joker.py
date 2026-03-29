@@ -1,18 +1,29 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+# Integration of Gemini API for Egyptian Arabic Dialect Processing and Code Generation
 
-app = Flask(__name__)
-CORS(app)
+import requests
 
-@app.route('/')
-def home():
-    return "نظام الجوكر يعمل بنجاح.. العقل متصل"
+class GeminiAPI:
+    def __init__(self, api_key):
+        self.api_key = api_key
+        self.base_url = 'https://api.gemini.com'
 
-@app.route('/chat', methods=['POST'])
-def chat():
-    data = request.json
-    user_msg = data.get("message", "")
-    return jsonify({"reply": f"الجوكر: تم استلام أمرك '{user_msg}' وجاري التنفيذ يا عبد الله."})
+    def process_dialect(self, text):
+        headers = {'Authorization': f'Bearer {self.api_key}', 'Content-Type': 'application/json'}
+        payload = {'text': text, 'dialect': 'Egyptian Arabic'}
+        response = requests.post(f'{self.base_url}/process', headers=headers, json=payload)
+        return response.json()
 
+    def generate_code(self, parameters):
+        headers = {'Authorization': f'Bearer {self.api_key}', 'Content-Type': 'application/json'}
+        payload = {'parameters': parameters}
+        response = requests.post(f'{self.base_url}/generate', headers=headers, json=payload)
+        return response.json()
+
+# Example usage
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    api_key = 'YOUR_API_KEY'
+    gemini = GeminiAPI(api_key)
+    dialect_result = gemini.process_dialect('مرحبا بك في تطبيقنا!')
+    print(dialect_result)
+    code_result = gemini.generate_code({'lang': 'Python', 'task': 'data_analysis'})
+    print(code_result)
