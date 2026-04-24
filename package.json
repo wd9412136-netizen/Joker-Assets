@@ -1,0 +1,27 @@
+{
+  "name": "joker-app",
+  "version": "1.0.0",
+  "description": "تطبيق الجوكر الذكي - Joker Smart App",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server",
+    "build": "capacitor build android",
+    "serve": "http-server -c-1"
+  },
+  "keywords": [
+    "joker",
+    "ai",
+    "app",
+    "android"
+  ],
+  "author": "wd9412136-netizen",
+  "license": "MIT",
+  "devDependencies": {
+    "@capacitor/core": "^5.0.0",
+    "@capacitor/cli": "^5.0.0",
+    "@capacitor/android": "^5.0.0"
+  },
+  "dependencies": {
+    "@capacitor/core": "^5.0.0"
+  }
+}
