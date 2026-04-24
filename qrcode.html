@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6e30f2">
+    <title>QR Code - تطبيق الجوكر</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0b0b0b 0%, #1a1a2e 100%);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: linear-gradient(135deg, #6e30f2, #41a18c);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(110, 48, 242, 0.3);
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #FFE66D, #FF6B35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+
+        #qrcode {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px auto;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            background: white;
+            color: #6e30f2;
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(110, 48, 242, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(110, 48, 242, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            #qrcode {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">📱🎭</div>
+        <h1>تطبيق الجوكر</h1>
+        <p class="subtitle">امسح الكود أدناه لتثبيت التطبيق مباشرة</p>
+        
+        <div id="qrcode"></div>
+        
+        <div class="button-group">
+            <button onclick="downloadQR()">📥 تحميل QR Code</button>
+            <button onclick="copyLink()">📋 نسخ الرابط</button>
+            <button onclick="openApp()">🚀 فتح التطبيق</button>
+        </div>
+
+        <div class="info">
+            <strong>📌 كيفية الاستخدام:</strong><br>
+            1️⃣ امسح QR Code بكاميرا هاتفك<br>
+            2️⃣ سيفتح رابط التطبيق تلقائياً<br>
+            3️⃣ اضغط "ثبّت الآن" لتثبيت التطبيق<br>
+            4️⃣ استمتع بتطبيق الجوكر! 🎉
+        </div>
+    </div>
+
+    <script>
+        // رابط التطبيق
+        const appUrl = 'https://wd9412136-netizen.github.io/Joker-Assets/';
+
+        // إنشاء QR Code
+        window.addEventListener('load', function() {
+            const qrcodeDiv = document.getElementById('qrcode');
+            qrcodeDiv.innerHTML = ''; // مسح المحتوى السابق
+            
+            new QRCode(qrcodeDiv, {
+                text: appUrl,
+                width: 300,
+                height: 300,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        });
+
+        // تحميل QR Code كصورة
+        function downloadQR() {
+            const canvas = document.querySelector('#qrcode canvas');
+            if (canvas) {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL('image/png');
+                link.download = 'Joker-App-QRCode.png';
+                link.click();
+            }
+        }
+
+        // نسخ الرابط
+        function copyLink() {
+            navigator.clipboard.writeText(appUrl).then(() => {
+                alert('✅ تم نسخ الرابط بنجاح!');
+            });
+        }
+
+        // فتح التطبيق
+        function openApp() {
+            window.location.href = appUrl;
+        }
+    </script>
+</body>
+</html>
