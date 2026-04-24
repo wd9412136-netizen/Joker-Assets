@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6e30f2">
+    <meta name="description" content="تطبيق الجوكر الذكي - يستخدم AI لمساعدتك">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/svg+xml" href="/assets/icons/joker-icon.svg">
+    <link rel="apple-touch-icon" href="/assets/icons/joker-icon.svg">
+    <title>الجوكر</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0b0b0b 0%, #1a1a2e 100%);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 15px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #6e30f2, #41a18c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #6e30f2, #41a18c);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(110, 48, 242, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        input {
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            width: 100%;
+            margin-bottom: 15px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+
+        input::placeholder {
+            color: #999;
+        }
+
+        button {
+            background: white;
+            color: #6e30f2;
+            padding: 12px 30px;
+            border-radius: 10px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(110, 48, 242, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(110, 48, 242, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        #response {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            min-height: 50px;
+            word-wrap: break-word;
+            line-height: 1.6;
+        }
+
+        .install-btn {
+            background: #41a18c;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .install-btn.show {
+            display: block;
+        }
+
+        .status {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+                <circle cx="100" cy="100" r="95" fill="#FF6B35" stroke="#fff" stroke-width="3"/>
+                <circle cx="100" cy="80" r="50" fill="#FFE66D" stroke="#000" stroke-width="2"/>
+                <circle cx="80" cy="70" r="8" fill="#000"/>
+                <circle cx="120" cy="70" r="8" fill="#000"/>
+                <path d="M 70 55 Q 80 50 90 55" stroke="#000" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <path d="M 110 55 Q 120 50 130 55" stroke="#000" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <path d="M 85 95 Q 100 115 115 95" stroke="#000" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <polygon points="50,40 65,20 80,35 100,15 120,35 135,20 150,40" fill="#9B59B6" stroke="#000" stroke-width="2"/>
+                <circle cx="60" cy="150" r="8" fill="#FF1744" stroke="#fff" stroke-width="1.5"/>
+                <circle cx="100" cy="155" r="8" fill="#FFD600" stroke="#fff" stroke-width="1.5"/>
+                <circle cx="140" cy="150" r="8" fill="#00BCD4" stroke="#fff" stroke-width="1.5"/>
+            </svg>
+            <h1>🎭 الجوكر</h1>
+            <p>تطبيقك الذكي</p>
+        </div>
+
+        <div class="card">
+            <input type="text" id="userIn" placeholder="اكتب أمرك هنا يا عبد الله...">
+            <button onclick="send()">ابدأ التنفيذ الآن</button>
+            <button class="install-btn" id="installBtn" onclick="installApp()">📱 تثبيت التطبيق</button>
+            <p id="response"></p>
+            <div class="status" id="status">متصل ✅</div>
+        </div>
+    </div>
+
+    <script>
+        // تسجيل Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(reg => console.log('✅ Service Worker مسجل'))
+                .catch(err => console.log('❌ فشل التسجيل:', err));
+        }
+
+        // متغير تثبيت التطبيق
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installBtn').classList.add('show');
+        });
+
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('✅ تم تثبيت التطبيق');
+                        document.getElementById('installBtn').classList.remove('show');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+
+        // إرسال الطلب إلى الخادم
+        async function send() {
+            const msg = document.getElementById('userIn').value;
+            const responseEl = document.getElementById('response');
+            const statusEl = document.getElementById('status');
+
+            if (!msg.trim()) {
+                responseEl.innerText = '⚠️ الرجاء كتابة أمر ما!';
+                return;
+            }
+
+            responseEl.innerText = '⏳ جاري المعالجة...';
+
+            try {
+                const res = await fetch('https://joker-assets.onrender.com/chat', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({message: msg})
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    responseEl.innerText = data.reply || '✅ تم معالجة الطلب';
+                    statusEl.innerText = 'متصل ✅';
+                } else {
+                    responseEl.innerText = '❌ حدث خطأ في المعالجة';
+                    statusEl.innerText = 'خطأ في الاتصال ❌';
+                }
+            } catch (error) {
+                responseEl.innerText = '⚠️ تأكد من الاتصال بالإنترنت';
+                statusEl.innerText = 'غير متصل ⚠️';
+            }
+        }
+
+        // اختبار الاتصال عند الفتح
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('✅ تطبيق الجوكر جاهز!');
+        });
+    </script>
+</body>
+</html>
