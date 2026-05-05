@@ -17,11 +17,12 @@
   "author": "wd9412136-netizen",
   "license": "MIT",
   "devDependencies": {
-    "@capacitor/core": "^5.0.0",
+    "@capacitor/android": "^5.0.0",
     "@capacitor/cli": "^5.0.0",
-    "@capacitor/android": "^5.0.0"
+    "@capacitor/core": "^5.0.0"
   },
   "dependencies": {
-    "@capacitor/core": "^5.0.0"
+    "@capacitor/core": "^5.0.0",
+    "@vercel/analytics": "^2.0.1"
   }
 }
