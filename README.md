@@ -1,24 +1,31 @@
-# Joker-Assetsimport os
-import subprocess
-import sys
+name: Joker Build System
 
-def install_requirements():
-    # قائمة المكتبات التي يحتاجها تطبيقك (يمكنك تغييرها لاحقاً)
-    libraries = ["requests", "colorama"] 
-    
-    print("جاري فحص وتثبيت المكتبات اللازمة...")
-    
-    for lib in libraries:
-        try:
-            # محاولة استيراد المكتبة للتأكد من وجودها
-            __import__(lib)
-            print(f"✅ {lib} مثبتة بالفعل.")
-        except ImportError:
-            # إذا لم تكن موجودة، يتم تثبيتها
-            print(f"📥 جاري تثبيت {lib}...")
-            subprocess.check_call([sys.executable, "-m", "pip", "install", lib])
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
-    print("\n✨ تم التثبيت بنجاح! يمكنك الآن تشغيل التطبيق.")
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-if __name__ == "__main__":
-    install_requirements()
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install kivy buildozer cython
+
+    - name: Build Android APK (Joker)
+      run: |
+        # هذا الأمر يبدأ عملية تحويل مشروعك إلى تطبيق للهاتف
+        # تأكد من وجود ملف buildozer.spec في مشروعك
+        buildozer android debug
