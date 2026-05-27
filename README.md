@@ -1,31 +1,101 @@
-name: Joker Build System
+# 🎭 تطبيق الجوكر الذكي - Joker Smart App
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+تطبيق ويب ذكي متطور يجمع بين الذكاء الاصطناعي والتطبيقات المحمولة. يدعم اللغة العربية بلهجات مختلفة.
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+## ✨ المميزات
 
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+- 🤖 دعم الذكاء الاصطناعي (Google Gemini API)
+- 📱 تطبيق ويب تقدمي (PWA) - يمكن تثبيته على الهاتف
+- 🌍 دعم كامل للغة العربية واللهجات المصرية
+- 🎨 واجهة مستخدم جميلة وحديثة
+- ⚡ أداء سريع وموثوقية عالية
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
+## 🚀 البدء السريع
 
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install kivy buildozer cython
+### المتطلبات
+- Node.js و npm
+- Python 3.9+
+- Git
 
-    - name: Build Android APK (Joker)
-      run: |
-        # هذا الأمر يبدأ عملية تحويل مشروعك إلى تطبيق للهاتف
-        # تأكد من وجود ملف buildozer.spec في مشروعك
-        buildozer android debug
+### التثبيت
+
+```bash
+# استنساخ المستودع
+git clone https://github.com/wd9412136-netizen/Joker-Assets.git
+cd Joker-Assets
+
+# تثبيت المتعلقات
+npm install
+
+# تثبيت متعلقات Python
+pip install -r requirements.txt
+```
+
+### التشغيل
+
+```bash
+# تشغيل خادم الويب
+npm start
+
+# أو في نافذة أخرى، تشغيل الخادم الخلفي (Flask)
+python Al-Joker.py
+```
+
+ثم افتح المتصفح على `http://localhost:8000`
+
+## 📁 هيكل المشروع
+
+```
+Joker-Assets/
+├── index.html              # الصفحة الرئيسية
+├── qrcode.html            # صفحة QR Code
+├��─ Al-Joker.py            # الخادم الخلفي (Flask)
+├── package.json           # متعلقات Node.js
+├── requirements.txt       # متعلقات Python
+├── manifest.json          # ملف PWA
+├── config.xml             # إعدادات Cordova
+└── capacitor.config.json  # إعدادات Capacitor
+```
+
+## 🔧 المتغيرات البيئية
+
+انسخ `.env.example` إلى `.env` وأضف مفاتيحك:
+
+```env
+GOOGLE_GEMINI_API_KEY=your_api_key_here
+PORT=5000
+```
+
+## 📖 التوثيق
+
+اطلع على `SETUP_AND_DEPLOYMENT.md` للحصول على تعليمات التثبيت والنشر التفصيلية.
+
+## 🛠️ البناء والنشر
+
+### بناء تطبيق Android
+
+```bash
+npm run build
+```
+
+### خدمة الملفات الثابتة
+
+```bash
+npm run serve
+```
+
+## 📝 الترخيص
+
+هذا المشروع مرخص تحت ترخيص MIT - اطلع على ملف `LICENSE` للتفاصيل.
+
+## 👨‍💻 المطور
+
+**wd9412136-netizen**
+
+## 📧 التواصل والدعم
+
+إذا واجهت أي مشاكل أو لديك اقتراحات، يرجى فتح issue على GitHub.
+
+---
+
+**آخر تحديث:** 27 مايو 2026
