@@ -16,11 +16,35 @@ def process_request():
         return jsonify({'error': 'No task provided'}), 400
     
     # Integrate with Google Gemini API
-    response = requests.post('https://api.google.com/gemini/process', json={'dialect': dialect, 'task': task}, headers={'Authorization': f'Bearer {API_KEY}'})
+    response = requests.post(
+        'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
+        json={'contents': [{'parts': [{'text': task}]}]},
+        headers={'x-goog-api-key': API_KEY}
+    )
     if response.status_code != 200:
         return jsonify({'error': 'Failed to process request', 'details': response.json()}), response.status_code
     
     return jsonify(response.json()), 200
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    data = request.json
+    message = data.get('message')
+    if not message:
+        return jsonify({'error': 'No message provided'}), 400
+    
+    # Integrate with Google Gemini API
+    response = requests.post(
+        'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
+        json={'contents': [{'parts': [{'text': message}]}]},
+        headers={'x-goog-api-key': API_KEY}
+    )
+    if response.status_code != 200:
+        return jsonify({'error': 'Failed to process request', 'details': response.json()}), response.status_code
+    
+    result = response.json()
+    reply = result.get('candidates', [{}])[0].get('content', {}).get('parts', [{}])[0].get('text', '')
+    return jsonify({'reply': reply}), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
